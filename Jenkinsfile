@@ -4,7 +4,7 @@ node {
     stage('Build') {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             echo "Running build steps..."
-            sh 'false' // Simulating a failing build step
+            bat 'exit 1' // Simulating a failing build step on Windows
         }
         stageResults['Build'] = 'FAILURE'
     }
@@ -23,6 +23,7 @@ node {
     stage('Deploy') {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             echo "Running deployment steps..."
+            bat 'echo Deployment steps on Windows' // Simulating deployment on Windows
             // No failure here
         }
         stageResults['Deploy'] = 'FAILURE'
