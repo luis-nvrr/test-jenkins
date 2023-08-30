@@ -27,9 +27,9 @@ node {
     }, 'FAILURE')
 
 
-    if (stageResults.containsValue('FAILURE')) {
-        currentBuild.result = 'FAILURE'
-    } else if (stageResults.containsValue('UNSTABLE')) {
+    if (stageResults.containsValue('UNSTABLE')) {
         currentBuild.result = 'UNSTABLE'
+    } else if (stageResults.containsValue('FAILURE')) {
+        currentBuild.result = 'FAILURE'
     }
 }
