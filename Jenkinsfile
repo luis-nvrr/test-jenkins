@@ -6,18 +6,18 @@ node {
             echo "Running build steps..."
             sh 'false' // Simulating a failing build step
         }
-        stageResults['Build'] = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'FAILURE' : 'SUCCESS'
+        stageResults['Build'] = 'FAILURE'
     }
 
     stage('Test') {
         steps {
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                 echo "Running test steps..."
                 // Simulating an unstable test step
                 unstable('This test is unstable')
             }
         }
-        stageResults['Test'] = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'FAILURE' : 'UNSTABLE'
+        stageResults['Test'] = 'UNSTABLE'
     }
 
     stage('Deploy') {
@@ -25,12 +25,12 @@ node {
             echo "Running deployment steps..."
             // No failure here
         }
-        stageResults['Deploy'] = currentBuild.resultIsBetterOrEqualTo('FAILURE') ? 'FAILURE' : 'SUCCESS'
+        stageResults['Deploy'] = 'FAILURE'
     }
 
-    if (stageResults.containsValue('UNSTABLE')) {
-        currentBuild.result = 'UNSTABLE'
-    } else if (stageResults.containsValue('FAILURE')) {
+    if (stageResults.containsValue('FAILURE')) {
         currentBuild.result = 'FAILURE'
+    } else if (stageResults.containsValue('UNSTABLE')) {
+        currentBuild.result = 'UNSTABLE'
     }
 }
