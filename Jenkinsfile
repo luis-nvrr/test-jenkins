@@ -1,5 +1,5 @@
 node {
-    def stageResults = [:]
+    stageResults = [:]
 
     stage('Build') {
         try {
@@ -40,8 +40,8 @@ node {
     }
 
     if (stageResults.containsValue('FAILURE')) {
-        currentBuild.result = 'SUCCESS'
+        currentBuild.result = 'FAILURE'
     } else if (stageResults.containsValue('UNSTABLE')) {
-        currentBuild.result = 'SUCCESS'
+        currentBuild.result = 'UNSTABLE'
     }
 }
