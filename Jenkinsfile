@@ -1,6 +1,6 @@
 node {
     stageResults = [:]
-    runStageSavingResult  = {stageName, scriptBlock, stageFailResult -> 
+    runStageSavingResult  = {stageName, scriptBlock, stageFailResult, stageResults -> 
         stage(stageName) {
             try {
                 echo "Running ${stageName} steps..."
@@ -16,15 +16,15 @@ node {
 
     runStageSavingResult('Build', {
         bat 'exit 1' // Simulating a failing build step on Windows
-    }, 'FAILURE')
+    }, 'FAILURE', stageResults)
 
     runStageSavingResult('Test', {
          unstable('This test is unstable')
-    }, 'UNSTABLE')
+    }, 'UNSTABLE', stageResults)
 
     runStageSavingResult('Deploy', {
         bat 'echo Deployment steps on Windows' // Simulating deployment on Windows
-    }, 'FAILURE')
+    }, 'FAILURE', stageResults)
 
 
     if (stageResults.containsValue('UNSTABLE')) {
