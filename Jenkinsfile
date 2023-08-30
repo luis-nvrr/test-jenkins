@@ -26,11 +26,14 @@ node {
         bat 'echo Deployment steps on Windows' // Simulating deployment on Windows
     }, 'FAILURE', stageResults)
 
-     echo "Checking stageResults after all stages..."
+     post {
+        always {
+            echo "Checking stageResults after all stages..."
             stageResults.each { stageName, stageResult ->
                 echo "${stageName}: ${stageResult}"
             }
-
+        }
+     }
     if (stageResults.containsValue('UNSTABLE')) {
         currentBuild.result = 'UNSTABLE'
     } else if (stageResults.containsValue('FAILURE')) {
