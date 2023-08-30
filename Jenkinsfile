@@ -10,14 +10,13 @@ node {
     }
 
     stage('Test') {
-        steps {
-            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                echo "Running test steps..."
-                // Simulating an unstable test step
-                unstable('This test is unstable')
-            }
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+            echo "Running test steps..."
+            // Simulating an unstable test step
+            unstable('This test is unstable')
+             stageResults['Test'] = 'UNSTABLE'
         }
-        stageResults['Test'] = 'UNSTABLE'
+    
     }
 
     stage('Deploy') {
