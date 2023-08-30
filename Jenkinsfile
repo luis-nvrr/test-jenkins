@@ -21,7 +21,7 @@ node {
     }, 'FAILURE', stageResults)
 
     runStageSavingResult('Test', {
-         unstable('This test is unstable')
+         bat 'exit 1' // Simulating a failing build step on Windows
     }, 'UNSTABLE', stageResults)
 
     runStageSavingResult('Deploy', {
