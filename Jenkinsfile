@@ -39,6 +39,10 @@ node {
         }
     }
 
+      stageResults.each { stageName, stageResult ->
+                echo "${stageName}: ${stageResult}"
+            }
+
     if (stageResults.containsValue('UNSTABLE')) {
         currentBuild.result = 'UNSTABLE'
     } else if (stageResults.containsValue('FAILURE')) {
