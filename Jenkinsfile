@@ -34,11 +34,3 @@ node {
         currentBuild.result = 'FAILURE'
     }
 }
-In this version, the unstable step is moved out of the catchError block and directly placed within the steps block of the 'Test' stage. This ensures that the unstable step is correctly executed when the test steps encounter an unstable condition.
-
-The rest of your Jenkinsfile logic for checking and updating the build result based on stageResults remains the same.
-
-
-
-
-
