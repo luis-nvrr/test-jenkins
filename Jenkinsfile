@@ -7,7 +7,6 @@ node {
                 scriptBlock()
             } catch (error) {
                 stageResults[stageName] = stageFailResult
-                currentBuild.result = 'SUCCESS'
                 catchError(buildResult: 'SUCCESS', stageResult: stageFailResult) {
                     echo "Error: ${error}"
                     bat 'exit 1' // Simulating a failing build step on Windows
