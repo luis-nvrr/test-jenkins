@@ -1,4 +1,7 @@
-def forceError(error) {
+
+node {
+    stageResults = [:]
+     forceError = { error ->
      echo "Error: ${error}"
      if (isUnix()) {
          sh 'false' // Simulating a failing build step on Unix
@@ -6,10 +9,6 @@ def forceError(error) {
         bat 'exit 1' // Simulating a failing build step on Windows
     }
 }
-
-
-node {
-    stageResults = [:]
     runStageSavingResult  = {stageName, scriptBlock, stageFailResult, stageResults -> 
         stage(stageName) {
             try {
@@ -23,6 +22,8 @@ node {
             }
         }
     }
+
+     
 
     runStageSavingResult('Build', {
         bat 'exit 1' // Simulating a failing build step on Windows
