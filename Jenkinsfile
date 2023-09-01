@@ -1,3 +1,13 @@
+def forceError(error) {
+     echo "Error: ${error}"
+     if (isUnix()) {
+         sh 'false' // Simulating a failing build step on Unix
+    } else {
+        bat 'exit 1' // Simulating a failing build step on Windows
+    }
+}
+
+
 node {
     stageResults = [:]
     runStageSavingResult  = {stageName, scriptBlock, stageFailResult, stageResults -> 
@@ -8,8 +18,7 @@ node {
             } catch (error) {
                 stageResults[stageName] = stageFailResult
                 catchError(buildResult: 'SUCCESS', stageResult: stageFailResult) {
-                    echo "Error: ${error}"
-                    bat 'exit 1' // Simulating a failing build step on Windows
+                    forceError(error)
                 }
             }
         }
